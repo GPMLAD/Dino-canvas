@@ -27,11 +27,16 @@ export class Dino {
     };
 
     this.width = 90;
-    this.height = canvas.height / 3;
+    this.height = 90;
   }
-  speed = 5;
+
+  jumpForce = 10;
   score = 0;
   gravity = 0.5;
+
+  grounded = false;
+  jumpTime = 0;
+  doubleJump = false;
 
   draw = () => {
     ctx.fillStyle = 'black';
@@ -39,14 +44,31 @@ export class Dino {
   };
 
   update = () => {
-    this.draw();
     this.position.y += this.velocity.y;
+    if (!this.grounded) {
+      this.jumpTime++;
+    }
 
     if (this.position.y + this.height <= canvas.height) {
       this.velocity.y += this.gravity;
     } else {
       this.position.y = canvas.height - this.height;
       this.velocity.y = 0;
+      this.grounded = true;
+      this.doubleJump = false;
+      this.jumpTime = 0;
+    }
+
+    this.draw();
+  };
+
+  jump = () => {
+    if (this.grounded) {
+      this.velocity.y -= this.jumpForce;
+      this.grounded = false;
+    } else if (this.jumpTime < 25 && !this.doubleJump) {
+      this.velocity.y -= this.jumpForce;
+      this.doubleJump = true;
     }
   };
 }
