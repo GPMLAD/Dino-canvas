@@ -38,6 +38,8 @@ export class Dino {
   jumpTime = 0;
   doubleJump = false;
 
+  isSquat = false;
+
   draw = () => {
     ctx.fillStyle = 'black';
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
@@ -69,6 +71,20 @@ export class Dino {
     } else if (this.jumpTime < 25 && !this.doubleJump) {
       this.velocity.y -= this.jumpForce;
       this.doubleJump = true;
+    }
+    if (this.isSquat) {
+      this.height = this.height * 2;
+      this.isSquat = false;
+    }
+  };
+
+  squat = () => {
+    if (this.grounded && !this.isSquat) {
+      this.height = this.height / 2;
+      this.isSquat = true;
+    } else if (this.grounded && this.isSquat) {
+      this.height = this.height * 2;
+      this.isSquat = false;
     }
   };
 }

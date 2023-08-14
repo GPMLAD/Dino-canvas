@@ -17,9 +17,7 @@ const keyDown = (event: KeyboardEvent) => {
       //console.log(event);
       break;
     case 40:
-      if (player.velocity.y <= 0.5) {
-        player.height = player.height / 2;
-      }
+      player.squat();
       break;
   }
 };

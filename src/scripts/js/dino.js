@@ -8,6 +8,7 @@ var Dino = /** @class */ (function () {
         this.grounded = false;
         this.jumpTime = 0;
         this.doubleJump = false;
+        this.isSquat = false;
         this.draw = function () {
             ctx.fillStyle = 'black';
             ctx.fillRect(_this.position.x, _this.position.y, _this.width, _this.height);
@@ -37,6 +38,20 @@ var Dino = /** @class */ (function () {
             else if (_this.jumpTime < 25 && !_this.doubleJump) {
                 _this.velocity.y -= _this.jumpForce;
                 _this.doubleJump = true;
+            }
+            if (_this.isSquat) {
+                _this.height = _this.height * 2;
+                _this.isSquat = false;
+            }
+        };
+        this.squat = function () {
+            if (_this.grounded && !_this.isSquat) {
+                _this.height = _this.height / 2;
+                _this.isSquat = true;
+            }
+            else if (_this.grounded && _this.isSquat) {
+                _this.height = _this.height * 2;
+                _this.isSquat = false;
             }
         };
         this.position = {
